@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -11,202 +11,135 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { ProductCard } from '@/components/product-card';
-
-// Mock product data - in a real app, this would come from an API or database
-const products = [
-  {
-    id: '1',
-    name: 'Cana Logo T-Shirt',
-    description: 'A comfortable cotton t-shirt featuring our church logo',
-    price: 20.0,
-    image: 'https://placehold.co/400x500',
-    category: 't-shirts',
-    isFeatured: true,
-    isNew: true,
-  },
-  {
-    id: '2',
-    name: 'Faith Coffee Mug',
-    description: 'Start your morning with faith using this 12oz ceramic mug',
-    price: 12.5,
-    image: 'https://placehold.co/400x500',
-    category: 'mugs',
-    isFeatured: true,
-    isNew: false,
-  },
-  {
-    id: '3',
-    name: 'Cross Pendant Necklace',
-    description: 'Beautiful stainless steel cross necklace with 18-inch chain',
-    price: 18.99,
-    image: 'https://placehold.co/400x500',
-    category: 'accessories',
-    isFeatured: true,
-    isNew: true,
-  },
-  {
-    id: '4',
-    name: 'Scripture Journal',
-    description: 'Hardcover journal with scripture verses on each page',
-    price: 15.0,
-    image: 'https://placehold.co/400x500',
-    category: 'accessories',
-    isFeatured: true,
-    isNew: false,
-  },
-  {
-    id: '5',
-    name: 'Be Still T-Shirt',
-    description: "Comfortable t-shirt with 'Be Still and Know' verse",
-    price: 22.0,
-    image: 'https://placehold.co/400x500',
-    category: 't-shirts',
-    isFeatured: false,
-    isNew: true,
-  },
-  {
-    id: '6',
-    name: 'Prayer Journal',
-    description: 'Guided prayer journal with prompts and scripture references',
-    price: 16.5,
-    image: 'https://placehold.co/400x500',
-    category: 'accessories',
-    isFeatured: false,
-    isNew: false,
-  },
-  {
-    id: '7',
-    name: 'Church Logo Cap',
-    description: 'Embroidered cap with church logo',
-    price: 18.0,
-    image: 'https://placehold.co/400x500',
-    category: 'accessories',
-    isFeatured: false,
-    isNew: true,
-  },
-  {
-    id: '8',
-    name: 'Scripture Mug - Psalm 23',
-    description: 'Ceramic mug with Psalm 23 verse',
-    price: 14.0,
-    image: 'https://placehold.co/400x500',
-    category: 'mugs',
-    isFeatured: false,
-    isNew: false,
-  },
-];
-
-// Category data
-const categoryData = {
-  't-shirts': {
-    title: 'T-Shirts',
-    description: 'Comfortable, stylish t-shirts featuring Christian messages and our church logo.',
-  },
-  mugs: {
-    title: 'Mugs',
-    description:
-      'Start your day with inspiration from our collection of faith-focused coffee mugs.',
-  },
-  accessories: {
-    title: 'Accessories',
-    description: 'Faith-inspired accessories including jewelry, journals, and more.',
-  },
-  all: {
-    title: 'All Products',
-    description: 'Browse our complete collection of church merchandise.',
-  },
-};
-
-const sortOptions = [
-  {
-    title: 'Featured',
-    value: 'featured',
-  },
-  {
-    title: 'Price: Low to High',
-    value: 'price-low',
-  },
-  {
-    title: 'Price: High to Low',
-    value: 'price-high',
-  },
-  {
-    title: 'Newest',
-    value: 'newest',
-  },
-];
+import { getProducts } from '@/lib/api/products';
 
 export default function CategoryPage() {
   const params = useParams();
-  const slug = params.slug;
+  const categorySlug = params.slug;
 
-  const [sortOption, setSortOption] = useState('featured');
+  // State for products and filtering
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [sortBy, setSortBy] = useState('featured');
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
-  // Filter products based on category
-  let filteredProducts =
-    slug === 'all' ? products : products.filter((product) => product.category === slug);
+  // Fetch products when component mounts or category changes
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        setLoading(true);
+        // If "all" is specified, fetch all products, otherwise filter by category
+        const categoryFilter = categorySlug === 'all' ? null : categorySlug;
+        const productsData = await getProducts({ category: categoryFilter });
+        setProducts(productsData);
 
-  // Sort products based on selected option
-  if (sortOption === 'price-low') {
-    filteredProducts = [...filteredProducts].sort((a, b) => a.price - b.price);
-  } else if (sortOption === 'price-high') {
-    filteredProducts = [...filteredProducts].sort((a, b) => b.price - a.price);
-  } else if (sortOption === 'newest') {
-    filteredProducts = [...filteredProducts].sort((a, b) =>
-      b.isNew === a.isNew ? 0 : b.isNew ? 1 : -1,
-    );
-  }
-  // Default is "featured" which uses the original order
+        // Apply initial sorting
+        sortProducts(productsData, sortBy);
+      } catch (err) {
+        console.error('Error loading products:', err);
+        setError('Failed to load products. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    }
 
-  const categoryInfo = categoryData[slug] || {
-    title: 'Products',
-    description: 'Browse our collection of products.',
+    loadProducts();
+  }, [categorySlug]);
+
+  // Apply sorting when sortBy changes
+  useEffect(() => {
+    sortProducts(products, sortBy);
+  }, [sortBy, products]);
+
+  // Function to sort products
+  const sortProducts = (productsToSort, sortOption) => {
+    if (!productsToSort.length) return;
+
+    let sorted = [...productsToSort];
+
+    switch (sortOption) {
+      case 'featured':
+        sorted.sort((a, b) => (a.isFeatured === b.isFeatured ? 0 : a.isFeatured ? -1 : 1));
+        break;
+      case 'newest':
+        sorted.sort((a, b) => (a.isNew === b.isNew ? 0 : a.isNew ? -1 : 1));
+        break;
+      case 'price-low':
+        sorted.sort((a, b) => a.price - b.price);
+        break;
+      case 'price-high':
+        sorted.sort((a, b) => b.price - a.price);
+        break;
+      default:
+        break;
+    }
+
+    setFilteredProducts(sorted);
   };
 
-  return (
-    <div className='m-auto max-w-7xl px-4 py-8'>
-      <div className='mb-8 space-y-4 text-center'>
-        <h1 className='text-3xl font-bold'>{categoryInfo.title}</h1>
-        <p className='text-muted-foreground mx-auto max-w-2xl'>{categoryInfo.description}</p>
+  // Category title formatting
+  const getCategoryTitle = () => {
+    if (categorySlug === 'all') {
+      return 'All Products';
+    }
+    return categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1);
+  };
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className='container mx-auto py-16 text-center'>
+        <div className='animate-pulse text-xl'>Loading products...</div>
       </div>
+    );
+  }
 
-      <div className='xxs:gap-0 xxs:flex-row mb-6 flex flex-col items-center justify-between gap-6'>
-        <p className='text-muted-foreground text-sm'>{filteredProducts.length} products</p>
+  // Error state
+  if (error) {
+    return (
+      <div className='container mx-auto py-16 text-center'>
+        <div className='text-xl text-red-500'>{error}</div>
+        <Button asChild className='mt-4'>
+          <Link href='/'>Return to Home</Link>
+        </Button>
+      </div>
+    );
+  }
 
-        <div className='flex items-center gap-2'>
-          <label htmlFor='sort' className='w-full text-sm'>
-            Sort by:
-          </label>
-          <Select id='sort' value={sortOption} onValueChange={setSortOption}>
-            <SelectTrigger className='w-full'>
-              <SelectValue placeholder='Featured' />
+  return (
+    <div className='container mx-auto py-8'>
+      <div className='mb-8 flex flex-col items-start justify-between space-y-4 sm:flex-row sm:items-center sm:space-y-0'>
+        <h1 className='text-3xl font-bold tracking-tight'>{getCategoryTitle()}</h1>
+
+        <div className='flex items-center space-x-4'>
+          <span className='text-muted-foreground text-sm'>Sort by:</span>
+          <Select value={sortBy} onValueChange={setSortBy}>
+            <SelectTrigger className='w-[180px]'>
+              <SelectValue placeholder='Sort by' />
             </SelectTrigger>
             <SelectContent>
-              {sortOptions.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.title}
-                </SelectItem>
-              ))}
+              <SelectItem value='featured'>Featured</SelectItem>
+              <SelectItem value='newest'>Newest</SelectItem>
+              <SelectItem value='price-low'>Price: Low to High</SelectItem>
+              <SelectItem value='price-high'>Price: High to Low</SelectItem>
             </SelectContent>
           </Select>
         </div>
       </div>
 
-      {filteredProducts.length > 0 ? (
-        <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+      {filteredProducts.length === 0 ? (
+        <div className='py-12 text-center'>
+          <p className='text-muted-foreground text-lg'>No products found in this category</p>
+          <Button asChild className='mt-4'>
+            <Link href='/category/all'>View all products</Link>
+          </Button>
+        </div>
+      ) : (
+        <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
           {filteredProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
-        </div>
-      ) : (
-        <div className='py-16 text-center'>
-          <h2 className='mb-2 text-xl font-medium'>No products found</h2>
-          <p className='text-muted-foreground mb-6'>
-            Sorry, there are no products available in this category.
-          </p>
-          <Button asChild>
-            <Link href='/category/all'>Browse All Products</Link>
-          </Button>
         </div>
       )}
     </div>

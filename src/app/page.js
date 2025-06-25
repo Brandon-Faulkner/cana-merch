@@ -2,71 +2,25 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ProductCard } from '@/components/product-card';
+import { getProducts, getCategories } from '@/lib/api/products';
 
-// Mock product data - we would normally fetch this from a database or API
-const featuredProducts = [
-  {
-    id: '1',
-    name: 'Cana Logo T-Shirt',
-    description: 'A comfortable cotton t-shirt featuring our church logo',
-    price: 20.0,
-    image: 'https://placehold.co/400x500',
-    category: 't-shirts',
-    isFeatured: true,
-    isNew: true,
-  },
-  {
-    id: '2',
-    name: 'Faith Coffee Mug',
-    description: 'Start your morning with faith using this 12oz ceramic mug',
-    price: 12.5,
-    image: 'https://placehold.co/400x500',
-    category: 'mugs',
-    isFeatured: true,
-    isNew: false,
-  },
-  {
-    id: '3',
-    name: 'Cross Pendant Necklace',
-    description: 'Beautiful stainless steel cross necklace with 18-inch chain',
-    price: 18.99,
-    image: 'https://placehold.co/400x500',
-    category: 'accessories',
-    isFeatured: true,
-    isNew: true,
-  },
-  {
-    id: '4',
-    name: 'Scripture Journal',
-    description: 'Hardcover journal with scripture verses on each page',
-    price: 15.0,
-    image: 'https://placehold.co/400x500',
-    category: 'accessories',
-    isFeatured: true,
-    isNew: false,
-  },
-];
+// Fetch data from Stripe
+async function getHomePageData() {
+  // Fetch featured products from Stripe
+  const featuredProducts = await getProducts({ featured: true, limit: 4 });
 
-// Mock category data
-const categories = [
-  {
-    name: 'T-Shirts',
-    href: '/category/t-shirts',
-    image: 'https://placehold.co/400x300',
-  },
-  {
-    name: 'Mugs',
-    href: '/category/mugs',
-    image: 'https://placehold.co/400x300',
-  },
-  {
-    name: 'Accessories',
-    href: '/category/accessories',
-    image: 'https://placehold.co/400x300',
-  },
-];
+  // Fetch categories
+  const categories = await getCategories();
 
-export default function Home() {
+  return {
+    featuredProducts,
+    categories,
+  };
+}
+
+export default async function Home() {
+  // Fetch data from Stripe
+  const { featuredProducts, categories } = await getHomePageData();
   return (
     <>
       {/* Hero Section */}

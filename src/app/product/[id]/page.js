@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -18,157 +18,104 @@ import {
 import { formatPrice } from '@/lib/utils';
 import { useCart } from '@/components/cart/cart-provider';
 import { ChevronLeft, Minus, Plus, ShoppingCart } from 'lucide-react';
-
-// Mock product data - in a real app, we would fetch this from an API
-const products = [
-  {
-    id: '1',
-    name: 'Cana Logo T-Shirt',
-    description:
-      'A comfortable cotton t-shirt featuring our church logo. Perfect for casual wear or church events. Made with 100% premium cotton for maximum comfort.',
-    price: 20.0,
-    image: 'https://placehold.co/400x500',
-    category: 't-shirts',
-    isFeatured: true,
-    isNew: true,
-    variants: ['Small', 'Medium', 'Large', 'X-Large'],
-    colors: ['Black', 'White', 'Navy Blue'],
-    inStock: true,
-    rating: 4.8,
-    reviews: 24,
-    details: [
-      '100% premium cotton',
-      'Machine washable',
-      'Church logo printed on front',
-      'Scripture verse on back',
-      'Unisex sizing',
-    ],
-  },
-  {
-    id: '2',
-    name: 'Faith Coffee Mug',
-    description:
-      'Start your morning with faith using this 12oz ceramic mug. Features an inspiring scripture verse and our church logo.',
-    price: 12.5,
-    image: 'https://placehold.co/400x500',
-    category: 'mugs',
-    isFeatured: true,
-    isNew: false,
-    variants: ['12oz'],
-    colors: ['White', 'Black'],
-    inStock: true,
-    rating: 4.6,
-    reviews: 18,
-    details: [
-      'Ceramic construction',
-      'Microwave and dishwasher safe',
-      '12oz capacity',
-      'Scripture verse printed on side',
-      'Church logo on reverse',
-    ],
-  },
-  {
-    id: '3',
-    name: 'Cross Pendant Necklace',
-    description:
-      'Beautiful stainless steel cross necklace with 18-inch chain. A perfect way to express your faith with an elegant accessory.',
-    price: 18.99,
-    image: 'https://placehold.co/400x500',
-    category: 'accessories',
-    isFeatured: true,
-    isNew: true,
-    variants: ['18-inch chain'],
-    colors: ['Silver', 'Gold'],
-    inStock: true,
-    rating: 4.9,
-    reviews: 32,
-    details: [
-      'Stainless steel construction',
-      'Tarnish resistant',
-      '18-inch chain included',
-      'Gift box included',
-      'Hypoallergenic',
-    ],
-  },
-  {
-    id: '4',
-    name: 'Scripture Journal',
-    description:
-      'Hardcover journal with scripture verses on each page. Perfect for daily reflections, sermon notes, or personal study.',
-    price: 15.0,
-    image: 'https://placehold.co/400x500',
-    category: 'accessories',
-    isFeatured: true,
-    isNew: false,
-    variants: ['200 pages'],
-    colors: ['Brown', 'Black', 'Blue'],
-    inStock: true,
-    rating: 4.7,
-    reviews: 15,
-    details: [
-      'Hardcover construction',
-      '200 lined pages',
-      'Scripture verse on each page',
-      'Ribbon bookmark',
-      'Elastic closure',
-    ],
-  },
-];
+import { getProduct } from '@/lib/api/products';
 
 export default function ProductPage() {
   const params = useParams();
   const productId = params.id;
-
-  // In a real app, we would fetch the product based on the ID
-  const product = products.find((p) => p.id === productId);
-
-  const [quantity, setQuantity] = useState(1);
-  const [selectedVariant, setSelectedVariant] = useState(product?.variants?.[0] || '');
-  const [selectedColor, setSelectedColor] = useState(product?.colors?.[0] || '');
-
   const { addToCart } = useCart();
 
-  if (!product) {
+  // State for product data
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // State for product options
+  const [quantity, setQuantity] = useState(1);
+  const [selectedVariant, setSelectedVariant] = useState('');
+  const [selectedColor, setSelectedColor] = useState('');
+
+  // Fetch product data when component mounts
+  useEffect(() => {
+    async function loadProduct() {
+      try {
+        setLoading(true);
+        const productData = await getProduct(productId);
+
+        if (productData) {
+          setProduct(productData);
+          // Set default selections
+          if (productData.variants && productData.variants.length > 0) {
+            setSelectedVariant(productData.variants[0]);
+          }
+          if (productData.colors && productData.colors.length > 0) {
+            setSelectedColor(productData.colors[0]);
+          }
+        } else {
+          setError('Product not found');
+        }
+      } catch (err) {
+        console.error('Error loading product:', err);
+        setError('Failed to load product. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadProduct();
+  }, [productId]);
+
+  // Loading state
+  if (loading) {
     return (
-      <div className='m-auto max-w-7xl py-16 text-center'>
-        <h1 className='mb-4 text-2xl font-bold'>Product Not Found</h1>
-        <p className='mb-6'>Sorry, the product you are looking for does not exist.</p>
-        <Button asChild>
-          <Link href='/'>Back to Home</Link>
+      <div className='container mx-auto mt-8 flex justify-center py-20'>
+        <div className='animate-pulse text-xl'>Loading product...</div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error || !product) {
+    return (
+      <div className='container mx-auto mt-8 flex flex-col items-center py-20'>
+        <div className='text-xl text-red-500'>{error || 'Product not found'}</div>
+        <Button asChild className='mt-4'>
+          <Link href='/category/all'>Browse Products</Link>
         </Button>
       </div>
     );
   }
 
-  const handleAddToCart = () => {
-    addToCart(
-      {
-        ...product,
-        variant: `${selectedColor} / ${selectedVariant}`,
-      },
-      quantity,
-    );
-  };
-
+  // Handle quantity changes
   const incrementQuantity = () => setQuantity((prev) => prev + 1);
+  const decrementQuantity = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
 
-  const decrementQuantity = () => {
-    if (quantity > 1) {
-      setQuantity((prev) => prev - 1);
-    }
+  // Handle adding to cart
+  const handleAddToCart = () => {
+    addToCart({
+      ...product,
+      quantity,
+      variant: selectedVariant,
+      color: selectedColor,
+    });
   };
 
+  // Product details
   return (
-    <div className='m-auto max-w-7xl px-4 py-8'>
-      <Button variant='ghost' asChild className='mb-6'>
-        <Link href='/' className='flex items-center gap-2'>
-          <ChevronLeft className='h-4 w-4' />
-          Back to Products
-        </Link>
-      </Button>
+    <div className='container mx-auto px-4 py-8'>
+      {/* Back to shop link */}
+      <Link
+        href='/category/all'
+        className='text-muted-foreground hover:text-foreground mt-4 mb-6 inline-flex items-center text-sm'
+      >
+        <ChevronLeft className='mr-1 h-4 w-4' />
+        Back to shop
+      </Link>
 
-      <div className='grid gap-8 md:grid-cols-2'>
-        <div className='bg-muted relative aspect-square overflow-hidden rounded-lg border'>
+      {/* Product details */}
+      <div className='mt-6 grid gap-8 lg:grid-cols-2'>
+        {/* Product image */}
+        <div className='bg-muted relative aspect-square overflow-hidden rounded-lg'>
           <Image
             src={product.image}
             alt={product.name}
@@ -177,126 +124,135 @@ export default function ProductPage() {
             sizes='(max-width: 768px) 100vw, 50vw'
             priority
           />
-          {product.isNew && <Badge className='absolute top-3 right-3'>New</Badge>}
+          {product.isNew && (
+            <Badge className='absolute top-2 left-2' variant='secondary'>
+              New
+            </Badge>
+          )}
         </div>
 
-        <div className='space-y-6'>
-          <div>
-            <h1 className='text-3xl font-bold'>{product.name}</h1>
-            <p className='mt-2 text-2xl font-semibold'>{formatPrice(product.price)}</p>
-          </div>
-
-          <p className='text-muted-foreground'>{product.description}</p>
-
-          <div className='space-y-4'>
-            {product.variants?.length > 0 && (
-              <div>
-                <label className='mb-1 block text-sm font-medium'>Size</label>
-                <Select value={selectedVariant} onValueChange={setSelectedVariant}>
-                  <SelectTrigger className='w-full'>
-                    <SelectValue placeholder='Select size' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {product.variants.map((variant) => (
-                      <SelectItem key={variant} value={variant}>
-                        {variant}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
-
-            {product.colors?.length > 0 && (
-              <div>
-                <label className='mb-1 block text-sm font-medium'>Color</label>
-                <Select value={selectedColor} onValueChange={setSelectedColor}>
-                  <SelectTrigger className='w-full'>
-                    <SelectValue placeholder='Select color' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {product.colors.map((color) => (
-                      <SelectItem key={color} value={color}>
-                        {color}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+        {/* Product info */}
+        <div className='flex flex-col'>
+          <h1 className='text-3xl font-bold'>{product.name}</h1>
+          <div className='mt-2 flex items-center'>
+            <div className='text-2xl font-bold'>{formatPrice(product.price)}</div>
+            {!product.inStock && (
+              <Badge variant='destructive' className='ml-3'>
+                Out of Stock
+              </Badge>
             )}
           </div>
 
-          <div className='flex items-center gap-4'>
-            <div className='flex items-center rounded-md border'>
+          {/* Rating */}
+          <div className='mt-4 flex items-center'>
+            <div className='flex'>
+              {[...Array(5)].map((_, i) => (
+                <svg
+                  key={i}
+                  className={`h-5 w-5 ${
+                    i < Math.floor(product.rating) ? 'text-yellow-400' : 'text-gray-300'
+                  }`}
+                  fill='currentColor'
+                  viewBox='0 0 20 20'
+                >
+                  <path d='M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z' />
+                </svg>
+              ))}
+            </div>
+            <span className='text-muted-foreground ml-2 text-sm'>
+              {product.rating} ({product.reviews} reviews)
+            </span>
+          </div>
+
+          {/* Description */}
+          <p className='text-muted-foreground mt-4'>{product.description}</p>
+
+          {/* Variant selection */}
+          {product.variants && product.variants.length > 0 && (
+            <div className='mt-6'>
+              <label className='mb-2 block text-sm font-medium'>Size</label>
+              <Select value={selectedVariant} onValueChange={setSelectedVariant}>
+                <SelectTrigger className='w-full'>
+                  <SelectValue placeholder='Select a size' />
+                </SelectTrigger>
+                <SelectContent>
+                  {product.variants.map((variant) => (
+                    <SelectItem key={variant} value={variant}>
+                      {variant}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+
+          {/* Color selection */}
+          {product.colors && product.colors.length > 0 && (
+            <div className='mt-6'>
+              <label className='mb-2 block text-sm font-medium'>Color</label>
+              <Select value={selectedColor} onValueChange={setSelectedColor}>
+                <SelectTrigger className='w-full'>
+                  <SelectValue placeholder='Select a color' />
+                </SelectTrigger>
+                <SelectContent>
+                  {product.colors.map((color) => (
+                    <SelectItem key={color} value={color}>
+                      {color}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+
+          {/* Quantity selector */}
+          <div className='mt-6'>
+            <label className='mb-2 block text-sm font-medium'>Quantity</label>
+            <div className='flex items-center'>
               <Button
-                variant='ghost'
+                variant='outline'
                 size='icon'
                 onClick={decrementQuantity}
                 disabled={quantity <= 1}
-                className='h-10 rounded-r-none'
               >
                 <Minus className='h-4 w-4' />
               </Button>
-              <span className='w-10 text-center'>{quantity}</span>
-              <Button
-                variant='ghost'
-                size='icon'
-                onClick={incrementQuantity}
-                className='h-10 rounded-l-none'
-              >
+              <span className='mx-4 w-8 text-center'>{quantity}</span>
+              <Button variant='outline' size='icon' onClick={incrementQuantity}>
                 <Plus className='h-4 w-4' />
               </Button>
             </div>
-
-            <Button onClick={handleAddToCart} className='flex-1' disabled={!product.inStock}>
-              <ShoppingCart className='mr-2 h-4 w-4' />
-              {product.inStock ? 'Add to Cart' : 'Out of Stock'}
-            </Button>
           </div>
 
-          <Separator />
+          {/* Add to cart button */}
+          <Button
+            className='mt-8 flex w-full items-center justify-center gap-2'
+            size='lg'
+            onClick={handleAddToCart}
+            disabled={!product.inStock}
+          >
+            <ShoppingCart className='h-5 w-5' />
+            {product.inStock ? 'Add to Cart' : 'Out of Stock'}
+          </Button>
 
-          <div>
-            <h3 className='mb-2 font-medium'>Product Details</h3>
-            <ul className='list-inside list-disc space-y-1 text-sm'>
-              {product.details.map((detail, index) => (
-                <li key={index} className='text-muted-foreground'>
-                  {detail}
-                </li>
-              ))}
+          {/* Product details */}
+          <div className='mt-8'>
+            <h3 className='mb-2 text-lg font-semibold'>Product Details</h3>
+            <Separator />
+            <ul className='mt-4 space-y-2'>
+              {product.details &&
+                product.details.map((detail, index) => (
+                  <li key={index} className='flex items-center gap-2'>
+                    <span className='bg-primary h-1.5 w-1.5 rounded-full'></span>
+                    <span>{detail}</span>
+                  </li>
+                ))}
             </ul>
           </div>
         </div>
       </div>
 
-      <div className='mt-16'>
-        <h2 className='mb-6 text-2xl font-bold'>You May Also Like</h2>
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4'>
-          {products
-            .filter((p) => p.id !== product.id)
-            .slice(0, 4)
-            .map((product) => (
-              <Card key={product.id} className='overflow-hidden'>
-                <div className='relative aspect-square'>
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    fill
-                    className='object-cover'
-                    sizes='(max-width: 768px) 50vw, 25vw'
-                  />
-                </div>
-                <CardContent className='p-4'>
-                  <h3 className='line-clamp-1 font-medium'>{product.name}</h3>
-                  <p className='mt-1 text-sm'>{formatPrice(product.price)}</p>
-                  <Button asChild variant='outline' size='sm' className='mt-2 w-full'>
-                    <Link href={`/product/${product.id}`}>View</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-        </div>
-      </div>
+      {/* Related products section would go here */}
     </div>
   );
 }
