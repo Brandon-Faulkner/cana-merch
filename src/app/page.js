@@ -1,103 +1,181 @@
-import Image from "next/image";
+import Image from 'next/image';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { ProductCard } from '@/components/product-card';
+
+// Mock product data - we would normally fetch this from a database or API
+const featuredProducts = [
+  {
+    id: '1',
+    name: 'Cana Logo T-Shirt',
+    description: 'A comfortable cotton t-shirt featuring our church logo',
+    price: 20.0,
+    image: 'https://placehold.co/400x500',
+    category: 't-shirts',
+    isFeatured: true,
+    isNew: true,
+  },
+  {
+    id: '2',
+    name: 'Faith Coffee Mug',
+    description: 'Start your morning with faith using this 12oz ceramic mug',
+    price: 12.5,
+    image: 'https://placehold.co/400x500',
+    category: 'mugs',
+    isFeatured: true,
+    isNew: false,
+  },
+  {
+    id: '3',
+    name: 'Cross Pendant Necklace',
+    description: 'Beautiful stainless steel cross necklace with 18-inch chain',
+    price: 18.99,
+    image: 'https://placehold.co/400x500',
+    category: 'accessories',
+    isFeatured: true,
+    isNew: true,
+  },
+  {
+    id: '4',
+    name: 'Scripture Journal',
+    description: 'Hardcover journal with scripture verses on each page',
+    price: 15.0,
+    image: 'https://placehold.co/400x500',
+    category: 'accessories',
+    isFeatured: true,
+    isNew: false,
+  },
+];
+
+// Mock category data
+const categories = [
+  {
+    name: 'T-Shirts',
+    href: '/category/t-shirts',
+    image: 'https://placehold.co/400x300',
+  },
+  {
+    name: 'Mugs',
+    href: '/category/mugs',
+    image: 'https://placehold.co/400x300',
+  },
+  {
+    name: 'Accessories',
+    href: '/category/accessories',
+    image: 'https://placehold.co/400x300',
+  },
+];
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <>
+      {/* Hero Section */}
+      <section className='relative overflow-hidden py-24'>
+        <div className='m-auto max-w-7xl px-4 md:px-6'>
+          <div className='grid items-center gap-6 lg:grid-cols-2 lg:gap-12'>
+            <div className='space-y-4'>
+              <h1 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl'>
+                Quality Church Merchandise for Your Faith Journey
+              </h1>
+              <p className='text-gray-500 md:text-xl dark:text-gray-400'>
+                Share your faith with our premium collection of church merchandise. From comfortable
+                t-shirts to inspiring accessories.
+              </p>
+              <div className='flex flex-col gap-2 sm:flex-row'>
+                <Button size='lg' asChild>
+                  <Link href='/category/all'>Shop Now</Link>
+                </Button>
+                <Button variant='outline' size='lg' asChild>
+                  <Link href='#categories'>Browse Categories</Link>
+                </Button>
+              </div>
+            </div>
+            <div className='relative h-[400px] w-full'>
+              <Image
+                src='https://placehold.co/800x600'
+                alt='Featured church merchandise'
+                fill
+                className='rounded-lg object-cover'
+                sizes='(max-width: 768px) 100vw, 50vw'
+                priority
+              />
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </section>
+
+      {/* Categories Section */}
+      <section id='categories' className='bg-muted/50 py-12'>
+        <div className='m-auto max-w-7xl px-4 md:px-6'>
+          <h2 className='mb-10 text-center text-2xl font-bold'>Shop by Category</h2>
+          <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'>
+            {categories.map((category) => (
+              <Link
+                key={category.name}
+                href={category.href}
+                className='group relative h-[200px] overflow-hidden rounded-lg'
+              >
+                <Image
+                  src={category.image}
+                  alt={category.name}
+                  fill
+                  className='object-cover transition-transform duration-300 group-hover:scale-105'
+                  sizes='(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw'
+                />
+                <div className='absolute inset-0 bg-gradient-to-t from-black/60 to-transparent' />
+                <div className='absolute bottom-0 left-0 p-4'>
+                  <h3 className='text-xl font-semibold text-white'>{category.name}</h3>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Products Section */}
+      <section className='py-12'>
+        <div className='m-auto max-w-7xl px-4 md:px-6'>
+          <h2 className='mb-10 text-center text-2xl font-bold'>Featured Products</h2>
+          <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4'>
+            {featuredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+          <div className='mt-10 text-center'>
+            <Button variant='outline' size='lg' asChild>
+              <Link href='/category/all'>View All Products</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Mission Section */}
+      <section className='bg-muted/50 py-12'>
+        <div className='m-auto max-w-7xl px-4 md:px-6'>
+          <div className='grid items-center gap-6 lg:grid-cols-2 lg:gap-12'>
+            <div className='relative h-[300px] w-full'>
+              <Image
+                src='https://placehold.co/600x400'
+                alt='Our church community'
+                fill
+                className='rounded-lg object-cover'
+                sizes='(max-width: 768px) 100vw, 50vw'
+              />
+            </div>
+            <div className='space-y-4'>
+              <h2 className='text-3xl font-bold tracking-tighter'>Our Mission</h2>
+              <p className='text-gray-500 dark:text-gray-400'>
+                Our merchandise isn't just about fashion—it's about sharing faith and supporting our
+                church's mission. Every purchase helps fund community outreach programs and church
+                initiatives.
+              </p>
+              <Button variant='outline' asChild>
+                <Link href='/about'>Learn More</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
