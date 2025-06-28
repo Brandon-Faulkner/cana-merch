@@ -1,22 +1,20 @@
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useCart } from './cart-provider';
+import { useCart } from '@/context/cart-provider';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Minus, Plus, X } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
 
-export default function CartSidebar() {
-  const { cart, isCartOpen, setIsCartOpen, removeFromCart, updateQuantity, getCartTotal } =
-    useCart();
-
+export default function CartSidebar({ isCartOpen, setIsCartOpen }) {
+  const { cart, removeFromCart, updateQuantity, getCartTotal } = useCart();
   const total = getCartTotal();
 
   return (
-    <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
-      <SheetContent className='flex w-full flex-col px-2 sm:max-w-lg'>
+    <Sheet open={isCartOpen} onOpenChange={() => setIsCartOpen((prev) => !prev)}>
+      <SheetContent className='flex w-full flex-col px-4 sm:max-w-lg'>
         <SheetHeader className='px-1'>
           <SheetTitle>Your Cart</SheetTitle>
         </SheetHeader>
@@ -60,13 +58,14 @@ export default function CartSidebar() {
                             <p className='text-muted-foreground text-xs'>{item.variant}</p>
                           )}
                         </div>
-                        <button
+                        <Button
+                          variant='ghost'
+                          size='icon'
+                          className='h-6 w-6'
                           onClick={() => removeFromCart(item.id)}
-                          className='text-muted-foreground hover:bg-muted flex h-6 w-6 items-center justify-center rounded-md'
-                          aria-label={`Remove ${item.name} from cart`}
                         >
                           <X className='h-3 w-3' />
-                        </button>
+                        </Button>
                       </div>
 
                       <div className='flex items-center justify-between'>
@@ -108,7 +107,7 @@ export default function CartSidebar() {
                 <span>Subtotal</span>
                 <span className='font-medium'>{formatPrice(total)}</span>
               </div>
-              <Button className='w-full' size='lg' asChild>
+              <Button className='w-full' size='lg' asChild onClick={() => setIsCartOpen(false)}>
                 <Link href='/checkout'>Proceed to Checkout</Link>
               </Button>
             </div>

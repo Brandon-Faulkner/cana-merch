@@ -7,7 +7,6 @@ const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
 
   // Load cart from localStorage on client side
   useEffect(() => {
@@ -36,7 +35,7 @@ export function CartProvider({ children }) {
 
       if (existingItemIndex !== -1) {
         const updatedCart = [...prevCart];
-        updatedCart[existingItemIndex].quantity += quantity;
+        updatedCart[existingItemIndex].quantity = quantity;
         toast.success(`${product.name} quantity updated in cart`);
         return updatedCart;
       } else {
@@ -75,10 +74,6 @@ export function CartProvider({ children }) {
     return cart.reduce((total, item) => total + item.quantity, 0);
   };
 
-  const toggleCart = () => {
-    setIsCartOpen((prev) => !prev);
-  };
-
   const value = {
     cart,
     addToCart,
@@ -87,9 +82,6 @@ export function CartProvider({ children }) {
     clearCart,
     getCartTotal,
     getCartCount,
-    isCartOpen,
-    toggleCart,
-    setIsCartOpen,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

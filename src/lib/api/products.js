@@ -1,6 +1,8 @@
+import { getBaseUrl } from '../utils';
+
 /**
  * Fetches all products from the API
- * @param {Object} options - Options for fetching products
+ * @param {Object} [options={}] - Options for fetching products
  * @param {string} options.category - Category filter
  * @param {boolean} options.featured - Only fetch featured products
  * @param {number} options.limit - Maximum number of products to fetch
@@ -15,14 +17,11 @@ export async function getProducts(options = {}) {
     if (category) params.append('category', category);
     if (featured) params.append('featured', 'true');
     if (limit) params.append('limit', limit.toString());
-
     const queryString = params.toString();
 
-    // Fetch products from our API endpoint
-    const response = await fetch(
-      `/api/products${queryString ? `?${queryString}` : ''}`,
-      { next: { revalidate: 60 } }, // Revalidate cache every 60 seconds
-    );
+    const url = `${getBaseUrl()}/api/products${queryString ? `?${queryString}` : ''}`;
+
+    const response = await fetch(url, { next: { revalidate: 60 } });
 
     if (!response.ok) {
       throw new Error(`Error fetching products: ${response.statusText}`);
@@ -42,9 +41,10 @@ export async function getProducts(options = {}) {
  */
 export async function getProduct(id) {
   try {
-    // Fetch product from our API endpoint
-    const response = await fetch(`/api/products/${id}`, {
-      next: { revalidate: 60 }, // Revalidate cache every 60 seconds
+    const url = `${getBaseUrl()}/api/products/${id}`;
+
+    const response = await fetch(url, {
+      next: { revalidate: 60 },
     });
 
     if (!response.ok) {
@@ -64,17 +64,15 @@ export async function getProduct(id) {
  */
 export async function getCategories() {
   try {
-    // Fetch all products
     const products = await getProducts();
 
-    // Extract unique categories
     const categoryMap = products.reduce((acc, product) => {
       const category = product.category;
       if (!acc[category]) {
         acc[category] = {
           name: category.charAt(0).toUpperCase() + category.slice(1),
           href: `/category/${category}`,
-          image: product.image, // Use the first product image for the category
+          image: product.image,
         };
       }
       return acc;

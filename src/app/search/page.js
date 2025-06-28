@@ -1,13 +1,29 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Search } from 'lucide-react';
-import { ProductCard } from '@/components/product-card';
+import { Search, Loader2 } from 'lucide-react';
+import { ProductCard } from '@/components/products/product-card';
+import { SearchSkeleton } from '@/components/skeletons/search-skeleton';
 import { getProducts } from '@/lib/api/products';
 
-export default function SearchPage() {
+export default function Page() {
+  return (
+    <Suspense
+      fallback={
+        <div className='m-auto max-w-7xl px-4 py-16 text-center'>
+          <Loader2 className='text-primary mx-auto h-12 w-12 animate-spin' />
+          <p className='mt-4 text-lg'>Loading...</p>
+        </div>
+      }
+    >
+      <SearchPage />
+    </Suspense>
+  );
+}
+
+export function SearchPage() {
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
 
@@ -15,16 +31,12 @@ export default function SearchPage() {
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch all products when component mounts
   useEffect(() => {
     async function loadProducts() {
       try {
         setLoading(true);
         const allProducts = await getProducts();
         setProducts(allProducts);
-
-        // Apply initial search
-        filterProducts(allProducts, query);
       } catch (err) {
         console.error('Error loading products:', err);
       } finally {
@@ -35,12 +47,10 @@ export default function SearchPage() {
     loadProducts();
   }, []);
 
-  // Filter products when query changes
   useEffect(() => {
     filterProducts(products, query);
   }, [query, products]);
 
-  // Function to filter products based on search query
   const filterProducts = (productsToFilter, searchQuery) => {
     if (!searchQuery.trim()) {
       setSearchResults([]);
@@ -59,17 +69,12 @@ export default function SearchPage() {
     setSearchResults(filtered);
   };
 
-  // Show loading state
   if (loading) {
-    return (
-      <div className='container mx-auto py-16 text-center'>
-        <div className='animate-pulse text-xl'>Loading...</div>
-      </div>
-    );
+    return <SearchSkeleton />;
   }
 
   return (
-    <div className='container mx-auto py-8'>
+    <div className='m-auto max-w-7xl px-4 py-8'>
       {/* Search results header */}
       <div className='mb-8'>
         <h1 className='text-3xl font-bold tracking-tight'>Search Results</h1>
@@ -77,8 +82,8 @@ export default function SearchPage() {
           <p className='text-muted-foreground mt-2'>
             {searchResults.length === 0
               ? 'No results found'
-              : `Found ${searchResults.length} result${searchResults.length === 1 ? '' : 's'}`}{' '}
-            for "{query}"
+              : `Found ${searchResults.length} result${searchResults.length === 1 ? '' : 's'}`}
+            for &quot;{query}&quot;
           </p>
         ) : (
           <p className='text-muted-foreground mt-2'>Enter a search term to find products</p>
@@ -103,7 +108,7 @@ export default function SearchPage() {
         <div className='mt-12 flex flex-col items-center justify-center py-12'>
           <Search className='text-muted-foreground h-12 w-12' />
           <p className='text-muted-foreground mt-4 text-center text-lg'>
-            No products found matching "{query}"
+            No products found matching &quot;{query}&quot;
           </p>
           <Button asChild className='mt-4'>
             <Link href='/category/all'>Browse all products</Link>

@@ -1,7 +1,7 @@
 import './globals.css';
 import { Toaster } from '@/components/ui/sonner';
 import Header from '@/components/header';
-import { CartProvider } from '@/components/cart/cart-provider';
+import { CartProvider } from '@/context/cart-provider';
 import { ThemeProvider } from 'next-themes';
 import localFont from 'next/font/local';
 
@@ -67,7 +67,7 @@ export default function RootLayout({ children }) {
               <Header />
               <main className='flex-1'>{children}</main>
             </div>
-            <Toaster />
+            <Toaster richColors />
           </CartProvider>
         </ThemeProvider>
       </body>

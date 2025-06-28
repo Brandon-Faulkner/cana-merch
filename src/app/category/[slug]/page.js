@@ -10,8 +10,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { ProductCard } from '@/components/product-card';
+import { ProductCard } from '@/components/products/product-card';
 import { getProducts } from '@/lib/api/products';
+import { CategoriesSkeleton } from '@/components/skeletons/categories-skeleton';
 
 export default function CategoryPage() {
   const params = useParams();
@@ -24,7 +25,6 @@ export default function CategoryPage() {
   const [sortBy, setSortBy] = useState('featured');
   const [filteredProducts, setFilteredProducts] = useState([]);
 
-  // Fetch products when component mounts or category changes
   useEffect(() => {
     async function loadProducts() {
       try {
@@ -33,9 +33,6 @@ export default function CategoryPage() {
         const categoryFilter = categorySlug === 'all' ? null : categorySlug;
         const productsData = await getProducts({ category: categoryFilter });
         setProducts(productsData);
-
-        // Apply initial sorting
-        sortProducts(productsData, sortBy);
       } catch (err) {
         console.error('Error loading products:', err);
         setError('Failed to load products. Please try again.');
@@ -47,12 +44,10 @@ export default function CategoryPage() {
     loadProducts();
   }, [categorySlug]);
 
-  // Apply sorting when sortBy changes
   useEffect(() => {
     sortProducts(products, sortBy);
   }, [sortBy, products]);
 
-  // Function to sort products
   const sortProducts = (productsToSort, sortOption) => {
     if (!productsToSort.length) return;
 
@@ -78,7 +73,6 @@ export default function CategoryPage() {
     setFilteredProducts(sorted);
   };
 
-  // Category title formatting
   const getCategoryTitle = () => {
     if (categorySlug === 'all') {
       return 'All Products';
@@ -86,20 +80,14 @@ export default function CategoryPage() {
     return categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1);
   };
 
-  // Loading state
   if (loading) {
-    return (
-      <div className='container mx-auto py-16 text-center'>
-        <div className='animate-pulse text-xl'>Loading products...</div>
-      </div>
-    );
+    return <CategoriesSkeleton />;
   }
 
-  // Error state
   if (error) {
     return (
-      <div className='container mx-auto py-16 text-center'>
-        <div className='text-xl text-red-500'>{error}</div>
+      <div className='m-auto max-w-7xl px-4 py-16 text-center'>
+        <div className='text-destructive text-xl'>{error}</div>
         <Button asChild className='mt-4'>
           <Link href='/'>Return to Home</Link>
         </Button>
@@ -108,14 +96,15 @@ export default function CategoryPage() {
   }
 
   return (
-    <div className='container mx-auto py-8'>
-      <div className='mb-8 flex flex-col items-start justify-between space-y-4 sm:flex-row sm:items-center sm:space-y-0'>
-        <h1 className='text-3xl font-bold tracking-tight'>{getCategoryTitle()}</h1>
+    <div className='m-auto max-w-7xl px-4 py-8'>
+      <h1 className='mb-8 text-3xl font-bold tracking-tight'>{getCategoryTitle()}</h1>
+      <div className='xxs:gap-0 xxs:flex-row mb-6 flex flex-col items-center justify-between gap-6'>
+        <p className='text-muted-foreground text-sm'>{`${filteredProducts.length} product${filteredProducts.length === 1 ? '' : 's'}`}</p>
 
-        <div className='flex items-center space-x-4'>
+        <div className='flex items-center gap-2'>
           <span className='text-muted-foreground text-sm'>Sort by:</span>
           <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className='w-[180px]'>
+            <SelectTrigger className='w-40'>
               <SelectValue placeholder='Sort by' />
             </SelectTrigger>
             <SelectContent>

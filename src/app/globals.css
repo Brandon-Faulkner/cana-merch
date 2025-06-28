@@ -51,10 +51,10 @@
 }
 
 :root {
-  /* Toastify Styles */
-  --toastify-color-success: var(--color-green);
-  --toastify-color-error: var(--color-red);
-  --toastify-font-family: var(--font-futura), sans-serif;
+  /* Stripe Styles */
+  --stripe-primary: #00884f;
+  --stripe-background: #ffffff;
+  --stripe-foreground: #09090b;
 
   --radius: 0.5rem;
   --background: oklch(0.98 0 0);
@@ -94,6 +94,11 @@
 }
 
 .dark {
+  /* Stripe Styles */
+  --stripe-primary: #02aa63;
+  --stripe-background: #373737;
+  --stripe-foreground: #fafafa;
+
   --background: oklch(0.23 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.3 0 0);
