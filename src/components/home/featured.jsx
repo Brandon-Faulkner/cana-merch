@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { Boxes } from 'lucide-react';
 import { ProductCard } from '@/components/products/product-card';
 
 export function FeaturedSection({ featuredProducts }) {
@@ -14,7 +15,10 @@ export function FeaturedSection({ featuredProducts }) {
         </div>
         <div className='mt-10 text-center'>
           <Button variant='outline' size='lg' asChild>
-            <Link href='/category/all'>View All Merch</Link>
+            <Link href='/category/all'>
+              <Boxes />
+              View All Merch
+            </Link>
           </Button>
         </div>
       </div>

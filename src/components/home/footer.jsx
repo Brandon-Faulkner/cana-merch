@@ -10,7 +10,7 @@ export function FooterSection() {
               src='https://placehold.co/600x400'
               alt='Our church community'
               fill
-              className='rounded-lg object-cover'
+              className='rounded-lg object-cover shadow-lg'
               sizes='(max-width: 768px) 100vw, 50vw'
             />
           </div>

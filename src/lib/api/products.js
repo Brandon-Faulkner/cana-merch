@@ -59,7 +59,7 @@ export async function getProduct(id) {
 }
 
 /**
- * Fetches categories from products
+ * Fetches categories from products and returns them sorted alphabetically
  * @returns {Promise<Array>} - Promise resolving to an array of category objects
  */
 export async function getCategories() {
@@ -78,7 +78,7 @@ export async function getCategories() {
       return acc;
     }, {});
 
-    return Object.values(categoryMap);
+    return Object.values(categoryMap).sort((a, b) => a.name.localeCompare(b.name));
   } catch (error) {
     console.error('Error in getCategories:', error);
     return [];

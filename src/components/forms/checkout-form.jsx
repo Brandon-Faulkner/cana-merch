@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { useCart } from '@/context/cart-provider';
 import { formatPrice, getBaseUrl } from '@/lib/utils';
 import { toast } from 'sonner';
-import { Loader2 } from 'lucide-react';
+import { Loader2, CreditCard } from 'lucide-react';
 
 export function CheckoutForm() {
   const [email, setEmail] = useState('');
@@ -100,7 +100,10 @@ export function CheckoutForm() {
             Processing...
           </>
         ) : (
-          `Pay ${formatPrice(getCartTotal())}`
+          <>
+            <CreditCard />
+            Pay {formatPrice(getCartTotal())}
+          </>
         )}
       </Button>
     </form>

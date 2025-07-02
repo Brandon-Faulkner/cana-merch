@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, ShoppingBag } from 'lucide-react';
 
 export function PaymentSuccess({ orderNumber, amount, email }) {
   return (
@@ -37,7 +37,10 @@ export function PaymentSuccess({ orderNumber, amount, email }) {
         </CardContent>
         <CardFooter className='flex justify-center px-6 pb-6'>
           <Button asChild className='w-full'>
-            <Link href='/'>Continue Shopping</Link>
+            <Link href='/'>
+              <ShoppingBag />
+              Continue Shopping
+            </Link>
           </Button>
         </CardFooter>
       </Card>

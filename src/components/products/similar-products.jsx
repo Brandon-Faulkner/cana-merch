@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { Info } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { formatPrice } from '@/lib/utils';
 
@@ -25,7 +26,10 @@ export function SimilarProducts({ similarProducts }) {
                 <h3 className='line-clamp-1 font-medium'>{similarProduct.name}</h3>
                 <p className='mt-1 text-sm'>{formatPrice(similarProduct.price)}</p>
                 <Button asChild variant='outline' size='sm' className='mt-2 w-full'>
-                  <Link href={`/product/${similarProduct.id}`}>View</Link>
+                  <Link href={`/product/${similarProduct.id}`}>
+                    <Info />
+                    View
+                  </Link>
                 </Button>
               </CardContent>
             </Card>

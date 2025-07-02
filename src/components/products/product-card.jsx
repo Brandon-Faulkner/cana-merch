@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardTitle, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Info } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { formatPrice } from '@/lib/utils';
 
@@ -32,7 +33,10 @@ export function ProductCard({ product }) {
       </CardContent>
       <CardFooter className='p-4 pt-0'>
         <Button asChild className='w-full'>
-          <Link href={`/product/${product.id}`}>View Details</Link>
+          <Link href={`/product/${product.id}`}>
+            <Info />
+            View Details
+          </Link>
         </Button>
       </CardFooter>
     </Card>

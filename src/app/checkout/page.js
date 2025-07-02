@@ -5,6 +5,7 @@ import { useTheme } from 'next-themes';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import { Button } from '@/components/ui/button';
+import { Boxes } from 'lucide-react';
 import { useCart } from '@/context/cart-provider';
 import { getBaseUrl } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -120,7 +121,10 @@ export default function CheckoutPage() {
       <div className='m-auto flex max-w-7xl flex-col items-center justify-center px-4 py-20'>
         <p className='text-xl'>Your cart is empty</p>
         <Button asChild className='mt-4'>
-          <Link href='/category/all'>View Merch</Link>
+          <Link href='/category/all'>
+            <Boxes />
+            View Merch
+          </Link>
         </Button>
       </div>
     );

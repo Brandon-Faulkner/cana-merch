@@ -5,7 +5,7 @@ import { useCart } from '@/context/cart-provider';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Minus, Plus, X } from 'lucide-react';
+import { Minus, Plus, X, WalletCards, CircleArrowRight } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
 
 export default function CartSidebar({ isCartOpen, setIsCartOpen }) {
@@ -29,7 +29,10 @@ export default function CartSidebar({ isCartOpen, setIsCartOpen }) {
               </p>
             </div>
             <Button onClick={() => setIsCartOpen(false)} className='mt-2' asChild>
-              <Link href='/'>Browse Merch</Link>
+              <Link href='/'>
+                <WalletCards />
+                Browse Merch
+              </Link>
             </Button>
           </div>
         ) : (
@@ -108,7 +111,10 @@ export default function CartSidebar({ isCartOpen, setIsCartOpen }) {
                 <span className='font-medium'>{formatPrice(total)}</span>
               </div>
               <Button className='w-full' size='lg' asChild onClick={() => setIsCartOpen(false)}>
-                <Link href='/checkout'>Proceed to Checkout</Link>
+                <Link href='/checkout'>
+                  <CircleArrowRight />
+                  Proceed to Checkout
+                </Link>
               </Button>
             </div>
           </div>

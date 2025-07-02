@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { Boxes } from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -121,7 +122,10 @@ export default function CategoryPage() {
         <div className='py-12 text-center'>
           <p className='text-muted-foreground text-lg'>No merch found in this category</p>
           <Button asChild className='mt-4'>
-            <Link href='/category/all'>View all merch</Link>
+            <Link href='/category/all'>
+              <Boxes />
+              View all merch
+            </Link>
           </Button>
         </div>
       ) : (

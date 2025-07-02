@@ -1,10 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { WalletCards } from 'lucide-react';
 
 export function HeroSection() {
   return (
-    <section className='relative overflow-hidden py-24'>
+    <section className='relative overflow-hidden py-10 sm:py-24'>
       <div className='m-auto max-w-7xl px-4 md:px-6'>
         <div className='grid items-center gap-6 lg:grid-cols-2 lg:gap-12'>
           <div className='space-y-4'>
@@ -17,16 +18,19 @@ export function HeroSection() {
             </p>
             <div className='flex flex-col gap-2 sm:flex-row'>
               <Button size='lg' asChild>
-                <Link href='/category/all'>Browse & Pay</Link>
+                <Link href='/category/all'>
+                  <WalletCards />
+                  Browse & Pay
+                </Link>
               </Button>
             </div>
           </div>
           <div className='relative h-[400px] w-full'>
             <Image
-              src='https://placehold.co/800x600'
+              src='/merch_counter.webp'
               alt='Featured church merchandise'
               fill
-              className='rounded-lg object-cover'
+              className='rounded-lg object-cover shadow-lg'
               sizes='(max-width: 768px) 100vw, 50vw'
               priority
             />

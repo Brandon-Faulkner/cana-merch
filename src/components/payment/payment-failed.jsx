@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { BanknoteX } from 'lucide-react';
+import { BanknoteX, Undo2 } from 'lucide-react';
 
 export function PaymentFailed() {
   return (
@@ -18,7 +18,10 @@ export function PaymentFailed() {
         </CardContent>
         <CardFooter className='flex justify-center px-6 pb-6'>
           <Button asChild className='w-full' variant='destructive'>
-            <Link href='/checkout'>Return to Checkout</Link>
+            <Link href='/checkout'>
+              <Undo2 />
+              Return to Checkout
+            </Link>
           </Button>
         </CardFooter>
       </Card>
