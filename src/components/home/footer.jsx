@@ -1,6 +1,4 @@
 import Image from 'next/image';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 
 export function FooterSection() {
   return (
@@ -17,15 +15,12 @@ export function FooterSection() {
             />
           </div>
           <div className='space-y-4'>
-            <h2 className='text-3xl font-bold tracking-tighter'>Our Mission</h2>
-            <p className='text-gray-500 dark:text-gray-400'>
-              Our merchandise isn't just about fashion—it's about sharing faith and supporting our
-              church's mission. Every purchase helps fund community outreach programs and church
-              initiatives.
+            <h2 className='text-3xl font-bold tracking-tighter'>More Than Just Merch</h2>
+            <p className='text-muted-foreground'>
+              Every item you pick up supports Cana Church and its mission. Your purchase helps fund
+              local outreach, events, and ministry efforts—while giving you something meaningful to
+              wear or use.
             </p>
-            <Button variant='outline' asChild>
-              <Link href='/about'>Learn More</Link>
-            </Button>
           </div>
         </div>
       </div>

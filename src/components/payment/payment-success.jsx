@@ -5,7 +5,7 @@ import { CheckCircle } from 'lucide-react';
 
 export function PaymentSuccess({ orderNumber, amount, email }) {
   return (
-    <div className='flex min-h-[calc(100vh-65px)] items-center justify-center px-4 py-16'>
+    <div className='flex items-center justify-center px-4 py-16'>
       <Card className='border-primary/30 w-full max-w-md border shadow-xl'>
         <CardContent className='flex flex-col items-center px-6 pt-8 pb-4 text-center'>
           <div className='bg-primary/10 mb-6 rounded-full p-4'>
@@ -13,7 +13,7 @@ export function PaymentSuccess({ orderNumber, amount, email }) {
           </div>
           <h1 className='mb-1 text-2xl font-semibold tracking-tight'>Payment Successful</h1>
           <p className='text-muted-foreground mb-6 text-sm'>
-            Thank you for your order! We've received your payment.
+            Thank you for your purchase! We've received your payment.
           </p>
 
           <div className='bg-muted/50 w-full rounded-lg border p-4 text-left'>

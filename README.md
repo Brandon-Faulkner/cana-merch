@@ -1,36 +1,113 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Cana Church Merch Store
 
-## Getting Started
+This is a modern, self-serve church merchandise web app built with [Next.js App Router](https://nextjs.org/docs/app/building-your-application/routing) and deployed via [Vercel](https://vercel.com/). Members and visitors of Cana Church can pick up items in person at the merch counter and then complete their secure payment online through this site. No shipping or fulfillment is involved.
 
-First, run the development server:
+---
+
+## 🚀 Features
+
+* ⚡ **Instant Online Checkout** via Stripe Elements
+* 🛍️ **In-Person Merch Pickup** model — users grab items at a physical counter and pay online
+* 🎨 **Light/Dark Mode** support
+* 🔍 **Search & Browse** functionality by category or keyword
+* 🧾 **Auto-generated Payment Success & Failure Screens**
+* 🔐 **No data stored outside Stripe** — only name and email are collected for receipt/record
+* 📱 Fully responsive design using Tailwind + ShadCN UI components
+
+---
+
+## 🧠 Project Structure
+
+```
+src/
+├── app/                 # Route structure (App Router)
+│   ├── api/             # API routes (e.g. Stripe intent, product fetch)
+│   ├── category/        # Category pages
+│   ├── checkout/        # Stripe checkout + success/failure
+│   ├── legal/           # Terms and Privacy pages
+│   ├── product/         # Individual product detail pages
+│   ├── search/          # Product search functionality
+│
+├── components/          # Reusable UI and logic components
+│   ├── cart/            # Cart state and icon (if applicable)
+│   ├── forms/           # Checkout forms
+│   ├── home/            # Hero and landing sections
+│   ├── nav/             # Header and navigation
+│   ├── payment/         # Payment confirmation UIs
+│   ├── products/        # Product list/grid components
+│   ├── skeletons/       # Loading states
+│   └── ui/              # ShadCN-based UI primitives
+│
+├── context/             # Global state providers (e.g. cart context)
+├── lib/                 # Utility functions and API wrappers
+│   └── api/             # Stripe and client API functions
+├── resources/           # Fonts, images, static assets
+```
+
+---
+
+## 🛠️ Getting Started
+
+First, install dependencies:
+
+```bash
+npm install
+```
+
+Then run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit [http://localhost:3000](http://localhost:3000) to use the app.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🔐 Environment Variables
 
-## Learn More
+This app uses Stripe — create a `.env.local` file with the following:
 
-To learn more about Next.js, take a look at the following resources:
+```env
+STRIPE_SECRET_KEY=sk_test_...
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Make sure these are set in your Vercel dashboard for production.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 📦 Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This app is optimized for deployment via [Vercel](https://vercel.com/). Push to `main` or deploy manually through the Vercel UI.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 📄 Legal
+
+This app includes:
+
+* `/legal/terms` – Terms of Service
+* `/legal/privacy` – Privacy Policy
+
+These pages reflect Cana Church's pickup-only model and clarify that data is stored only within Stripe.
+
+---
+
+## 🙌 Credits
+
+* Built with [Next.js](https://nextjs.org/)
+* UI powered by [Tailwind CSS](https://tailwindcss.com) and [shadcn/ui](https://ui.shadcn.com/)
+* Payments via [Stripe Elements](https://stripe.com/docs/elements)
+
+---
+
+## 📜 License
+
+This project is licensed under the [MIT License](LICENSE). You are free to use, modify, and distribute this software as long as the original license is included.
+
+---
+
+## ✉️ Support
+
+For questions or support, contact Brandon from Cana Church at [brandon@canachurch.com](mailto:brandon@canachurch.com).

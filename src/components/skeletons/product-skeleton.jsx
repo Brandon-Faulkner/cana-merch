@@ -52,7 +52,7 @@ export function ProductSkeleton() {
         </div>
       </div>
 
-      {/* Similar Products Skeleton */}
+      {/* Similar Merch Skeleton */}
       <div className='mt-16'>
         <Skeleton className='mb-6 h-7 w-48' />
         <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4'>

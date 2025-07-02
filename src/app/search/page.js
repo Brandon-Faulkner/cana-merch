@@ -83,10 +83,10 @@ export function SearchPage() {
             {searchResults.length === 0
               ? 'No results found'
               : `Found ${searchResults.length} result${searchResults.length === 1 ? '' : 's'}`}
-            for &quot;{query}&quot;
+            &thinsp; for &quot;{query}&quot;
           </p>
         ) : (
-          <p className='text-muted-foreground mt-2'>Enter a search term to find products</p>
+          <p className='text-muted-foreground mt-2'>Enter a search term to find merch</p>
         )}
       </div>
 
@@ -95,10 +95,10 @@ export function SearchPage() {
         <div className='mt-12 flex flex-col items-center justify-center py-12'>
           <Search className='text-muted-foreground h-12 w-12' />
           <p className='text-muted-foreground mt-4 text-center text-lg'>
-            Enter a search term to find products
+            Enter a search term to find merch
           </p>
           <Button asChild className='mt-4'>
-            <Link href='/category/all'>Browse all products</Link>
+            <Link href='/category/all'>Browse all merch</Link>
           </Button>
         </div>
       )}
@@ -108,10 +108,10 @@ export function SearchPage() {
         <div className='mt-12 flex flex-col items-center justify-center py-12'>
           <Search className='text-muted-foreground h-12 w-12' />
           <p className='text-muted-foreground mt-4 text-center text-lg'>
-            No products found matching &quot;{query}&quot;
+            No merch found matching &quot;{query}&quot;
           </p>
           <Button asChild className='mt-4'>
-            <Link href='/category/all'>Browse all products</Link>
+            <Link href='/category/all'>Browse all merch</Link>
           </Button>
         </div>
       )}

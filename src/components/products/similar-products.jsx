@@ -32,7 +32,7 @@ export function SimilarProducts({ similarProducts }) {
           ))}
         </div>
       ) : (
-        <p className='text-muted-foreground'>No similar products found.</p>
+        <p className='text-muted-foreground'>No similar merch found.</p>
       )}
     </div>
   );

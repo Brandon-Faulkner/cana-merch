@@ -81,20 +81,9 @@ export function CartSummary({ cart, updateQuantity, removeFromCart, getCartTotal
 
           <Separator className='my-4' />
 
-          <div className='space-y-1.5'>
-            <div className='flex justify-between'>
-              <span>Subtotal</span>
-              <span>{formatPrice(getCartTotal())}</span>
-            </div>
-            <div className='flex justify-between'>
-              <span>Tax</span>
-              <span className='text-muted-foreground'>Calculated at next step</span>
-            </div>
-            <Separator className='my-2' />
-            <div className='flex justify-between text-lg font-semibold'>
-              <span>Total</span>
-              <span>{formatPrice(getCartTotal())}</span>
-            </div>
+          <div className='flex justify-between text-lg font-semibold'>
+            <span>Total</span>
+            <span>{formatPrice(getCartTotal())}</span>
           </div>
         </CardContent>
       </Card>

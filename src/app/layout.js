@@ -1,6 +1,7 @@
 import './globals.css';
 import { Toaster } from '@/components/ui/sonner';
 import Header from '@/components/header';
+import LegalFooter from '@/components/legal-footer';
 import { CartProvider } from '@/context/cart-provider';
 import { ThemeProvider } from 'next-themes';
 import localFont from 'next/font/local';
@@ -49,7 +50,8 @@ const futura = localFont({
 
 export const metadata = {
   title: 'Cana Merch',
-  description: 'Church merchandise store with high-quality products',
+  description:
+    'Grab your Cana Church merch at the counter, then pay online in seconds. No shipping, no hassle—just simple, secure checkout.',
 };
 
 export default function RootLayout({ children }) {
@@ -66,6 +68,7 @@ export default function RootLayout({ children }) {
             <div className='relative flex min-h-screen flex-col'>
               <Header />
               <main className='flex-1'>{children}</main>
+              <LegalFooter />
             </div>
             <Toaster richColors />
           </CartProvider>

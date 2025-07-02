@@ -3,8 +3,6 @@ import { HeroSection } from '@/components/home/hero';
 import { CategoriesSection } from '@/components/home/categories';
 import { FeaturedSection } from '@/components/home/featured';
 import { FooterSection } from '@/components/home/footer';
-import { PaymentSuccess } from '@/components/payment/payment-success';
-import { PaymentFailed } from '@/components/payment/payment-failed';
 
 // Fetch data from Stripe
 async function getHomePageData() {

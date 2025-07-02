@@ -22,12 +22,12 @@ export function StripeForm() {
         </CardContent>
         <CardFooter className='flex-col items-start gap-2 border-t px-6 py-4'>
           <p className='text-muted-foreground text-sm'>
-            By completing this purchase, you agree to our &nbsp;
-            <Link href='#' className='underline'>
+            By completing this purchase, you agree to our &thinsp;
+            <Link href='/legal/terms' className='underline'>
               Terms of Service
             </Link>
-            &nbsp; and &nbsp;
-            <Link href='#' className='underline'>
+            &thinsp; and &thinsp;
+            <Link href='/legal/privacy' className='underline'>
               Privacy Policy
             </Link>
             .

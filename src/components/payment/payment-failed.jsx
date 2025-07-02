@@ -5,7 +5,7 @@ import { BanknoteX } from 'lucide-react';
 
 export function PaymentFailed() {
   return (
-    <div className='flex min-h-[calc(100vh-65px)] items-center justify-center px-4 py-12'>
+    <div className='flex items-center justify-center px-4 py-12'>
       <Card className='border-destructive/30 w-full max-w-md border shadow-xl'>
         <CardContent className='flex flex-col items-center px-6 pt-8 pb-4 text-center'>
           <div className='bg-destructive/10 mb-6 rounded-full p-4'>

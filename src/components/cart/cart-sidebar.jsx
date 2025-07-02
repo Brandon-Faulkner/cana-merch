@@ -29,7 +29,7 @@ export default function CartSidebar({ isCartOpen, setIsCartOpen }) {
               </p>
             </div>
             <Button onClick={() => setIsCartOpen(false)} className='mt-2' asChild>
-              <Link href='/'>Browse Products</Link>
+              <Link href='/'>Browse Merch</Link>
             </Button>
           </div>
         ) : (
@@ -104,7 +104,7 @@ export default function CartSidebar({ isCartOpen, setIsCartOpen }) {
             <div className='space-y-4 pb-4'>
               <Separator />
               <div className='flex justify-between'>
-                <span>Subtotal</span>
+                <span>Total</span>
                 <span className='font-medium'>{formatPrice(total)}</span>
               </div>
               <Button className='w-full' size='lg' asChild onClick={() => setIsCartOpen(false)}>

@@ -5,7 +5,7 @@ export function CategoriesSection({ categories }) {
   return (
     <section id='categories' className='bg-muted/50 py-12'>
       <div className='m-auto max-w-7xl px-4 md:px-6'>
-        <h2 className='mb-10 text-center text-2xl font-bold'>Shop by Category</h2>
+        <h2 className='mb-10 text-center text-2xl font-bold'>Browse by Category</h2>
         <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'>
           {categories.map((category) => (
             <Link

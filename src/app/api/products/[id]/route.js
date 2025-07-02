@@ -11,12 +11,12 @@ export async function GET(request, { params }) {
       expand: ['default_price'],
     });
 
-    if (!product || !product.active) {
-      return Response.json({ error: 'Product not found or inactive' }, { status: 404 });
+    if (!product || !product.active || !product.metadata.category?.trim()) {
+      return Response.json({ error: 'Product not found or not for sale' }, { status: 404 });
     }
 
     const price = product.default_price;
-    const priceAmount = price ? price.unit_amount / 100 : 0; // Convert from cents to dollars
+    const priceAmount = price ? price.unit_amount / 100 : 0;
 
     const formattedProduct = {
       id: product.id,
@@ -24,7 +24,7 @@ export async function GET(request, { params }) {
       description: product.description || '',
       price: priceAmount,
       image: product.images[0] || 'https://placehold.co/400x500',
-      category: product.metadata.category || 'all',
+      category: product.metadata.category,
       isFeatured: product.metadata.featured === 'true',
       isNew: product.metadata.new === 'true',
       variants: product.metadata.variants ? product.metadata.variants.split(',') : [],

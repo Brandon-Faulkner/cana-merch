@@ -51,11 +51,11 @@ export default function ProductPage() {
           const similar = await getProducts({ category });
           setSimilarProducts(similar.filter((p) => p.id !== productData.id).slice(0, 4));
         } else {
-          setError('Product not found');
+          setError('Merch not found');
         }
       } catch (err) {
         console.error('Error loading product:', err);
-        setError('Sorry, the product you are looking for does not exist or could not be found.');
+        setError('Sorry, the merch you are looking for does not exist or could not be found.');
       } finally {
         setLoading(false);
       }
@@ -71,10 +71,10 @@ export default function ProductPage() {
   if (error || !product) {
     return (
       <div className='m-auto max-w-7xl py-16 text-center'>
-        <h1 className='mb-4 text-2xl font-bold'>Product Not Found</h1>
+        <h1 className='mb-4 text-2xl font-bold'>Merch Not Found</h1>
         <p className='mb-6'>{error}</p>
         <Button asChild>
-          <Link href='/category/all'>Browse Products</Link>
+          <Link href='/category/all'>Browse Merch</Link>
         </Button>
       </div>
     );
@@ -100,7 +100,7 @@ export default function ProductPage() {
       <Button variant='ghost' asChild className='mb-6'>
         <Link href='/category/all' className='flex items-center gap-2'>
           <ChevronLeft className='h-4 w-4' />
-          Back to Products
+          Back to Merch
         </Link>
       </Button>
 

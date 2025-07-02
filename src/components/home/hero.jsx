@@ -9,18 +9,15 @@ export function HeroSection() {
         <div className='grid items-center gap-6 lg:grid-cols-2 lg:gap-12'>
           <div className='space-y-4'>
             <h1 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl'>
-              Quality Church Merchandise for Your Faith Journey
+              Grab Merch. Pay Online. Simple.
             </h1>
-            <p className='text-gray-500 md:text-xl dark:text-gray-400'>
-              Share your faith with our premium collection of church merchandise. From comfortable
-              t-shirts to inspiring accessories.
+            <p className='text-muted-foreground md:text-xl'>
+              Find something you love at our church merch counter, then check out right here in just
+              a few clicks. No shipping, no forms—just pick it up and pay online.
             </p>
             <div className='flex flex-col gap-2 sm:flex-row'>
               <Button size='lg' asChild>
-                <Link href='/category/all'>Shop Now</Link>
-              </Button>
-              <Button variant='outline' size='lg' asChild>
-                <Link href='#categories'>Browse Categories</Link>
+                <Link href='/category/all'>Browse & Pay</Link>
               </Button>
             </div>
           </div>

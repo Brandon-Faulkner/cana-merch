@@ -12,7 +12,7 @@ export function ProductCard({ product }) {
   const [imageLoading, setImageLoading] = useState(true);
 
   return (
-    <Card className='h-full overflow-hidden'>
+    <Card className='h-full overflow-hidden py-0'>
       <div className='relative aspect-square overflow-hidden'>
         {imageLoading && <Skeleton className='absolute inset-0 z-10' />}
         <Image

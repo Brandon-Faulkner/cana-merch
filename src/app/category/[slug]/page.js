@@ -35,7 +35,7 @@ export default function CategoryPage() {
         setProducts(productsData);
       } catch (err) {
         console.error('Error loading products:', err);
-        setError('Failed to load products. Please try again.');
+        setError('Failed to load merch. Please try again.');
       } finally {
         setLoading(false);
       }
@@ -75,7 +75,7 @@ export default function CategoryPage() {
 
   const getCategoryTitle = () => {
     if (categorySlug === 'all') {
-      return 'All Products';
+      return 'All Merch';
     }
     return categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1);
   };
@@ -119,9 +119,9 @@ export default function CategoryPage() {
 
       {filteredProducts.length === 0 ? (
         <div className='py-12 text-center'>
-          <p className='text-muted-foreground text-lg'>No products found in this category</p>
+          <p className='text-muted-foreground text-lg'>No merch found in this category</p>
           <Button asChild className='mt-4'>
-            <Link href='/category/all'>View all products</Link>
+            <Link href='/category/all'>View all merch</Link>
           </Button>
         </div>
       ) : (

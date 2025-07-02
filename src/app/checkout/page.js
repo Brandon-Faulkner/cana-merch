@@ -120,7 +120,7 @@ export default function CheckoutPage() {
       <div className='m-auto flex max-w-7xl flex-col items-center justify-center px-4 py-20'>
         <p className='text-xl'>Your cart is empty</p>
         <Button asChild className='mt-4'>
-          <Link href='/category/all'>View Products</Link>
+          <Link href='/category/all'>View Merch</Link>
         </Button>
       </div>
     );
