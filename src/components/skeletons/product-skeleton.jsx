@@ -57,7 +57,7 @@ export function ProductSkeleton() {
         <Skeleton className='mb-6 h-7 w-48' />
         <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4'>
           {[1, 2, 3, 4].map((i) => (
-            <Card key={i} className='overflow-hidden'>
+            <Card key={i} className='h-full overflow-hidden py-0'>
               <Skeleton className='aspect-square w-full' />
               <CardContent className='p-4'>
                 <Skeleton className='mb-2 h-5 w-4/5' />

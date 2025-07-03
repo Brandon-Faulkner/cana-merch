@@ -14,7 +14,7 @@ export function CategoriesSkeleton() {
 
       <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
         {Array.from({ length: 8 }).map((_, index) => (
-          <Card key={index} className='overflow-hidden'>
+          <Card key={index} className='h-full overflow-hidden py-0'>
             <div className='relative'>
               <Skeleton className='aspect-square w-full' />
             </div>

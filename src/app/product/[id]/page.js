@@ -27,6 +27,11 @@ export default function ProductPage() {
   const [selectedColor, setSelectedColor] = useState('');
 
   useEffect(() => {
+    if (!product) return;
+    document.title = `Cana Merch | ${product.name}`;
+  }, [product]);
+
+  useEffect(() => {
     async function loadProduct() {
       try {
         setLoading(true);

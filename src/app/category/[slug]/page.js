@@ -27,6 +27,11 @@ export default function CategoryPage() {
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
+    if (!categorySlug) return;
+    document.title = `Cana Merch | ${categorySlug}`;
+  }, [categorySlug]);
+
+  useEffect(() => {
     async function loadProducts() {
       try {
         setLoading(true);

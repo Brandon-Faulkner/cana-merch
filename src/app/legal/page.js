@@ -1,5 +1,9 @@
 import Link from 'next/link';
 
+export const metadata = {
+  title: 'Cana Merch | Legal',
+};
+
 export default function LegalPage() {
   return (
     <div className='m-auto max-w-7xl px-4 py-16'>

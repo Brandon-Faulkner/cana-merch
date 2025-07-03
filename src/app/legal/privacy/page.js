@@ -1,5 +1,9 @@
 import { Card, CardContent } from '@/components/ui/card';
 
+export const metadata = {
+  title: 'Cana Merch | Privacy',
+};
+
 export default function PrivacyPage() {
   return (
     <div className='m-auto max-w-7xl px-4 py-16'>

@@ -6,7 +6,7 @@ import { FooterSection } from '@/components/home/footer';
 
 // Fetch data from Stripe
 async function getHomePageData() {
-  const featuredProducts = await getProducts({ featured: true, limit: 4 });
+  const featuredProducts = await getProducts({ featured: true });
   const categories = await getCategories();
 
   return {

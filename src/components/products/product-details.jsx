@@ -30,6 +30,7 @@ export function ProductDetails({
           src={product.image}
           alt={product.name}
           fill
+          quality={95}
           className='object-cover'
           sizes='(max-width: 768px) 100vw, 50vw'
           priority

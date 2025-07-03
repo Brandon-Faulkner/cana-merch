@@ -32,6 +32,10 @@ export function SearchPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    document.title = 'Cana Merch | Search';
+  }, []);
+
+  useEffect(() => {
     async function loadProducts() {
       try {
         setLoading(true);

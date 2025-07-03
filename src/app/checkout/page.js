@@ -29,6 +29,10 @@ export default function CheckoutPage() {
   const { resolvedTheme } = useTheme();
 
   useEffect(() => {
+    document.title = 'Cana Merch | Checkout';
+  }, []);
+
+  useEffect(() => {
     const createOrUpdatePaymentIntent = async () => {
       try {
         if (cart.length === 0) {
