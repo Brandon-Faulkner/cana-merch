@@ -48,6 +48,8 @@ export function CheckoutSuccessPage() {
           }
         } catch {
           setOrderNumber(paymentIntent);
+        } finally {
+          setLoading(false);
         }
       }
     }
@@ -59,8 +61,8 @@ export function CheckoutSuccessPage() {
       fetchPaymentIntentDetails();
     } else if (redirectStatus === 'failed') {
       setPaymentStatus('failed');
+      setLoading(false);
     }
-    setLoading(false);
   }, [paymentIntent, redirectStatus, clearCart, cartCleared]);
 
   if (loading) {

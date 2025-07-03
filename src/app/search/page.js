@@ -74,7 +74,7 @@ export function SearchPage() {
   }
 
   return (
-    <div className='m-auto max-w-7xl px-4 py-8'>
+    <div className='animate-in fade-in-0 zoom-in-95 m-auto max-w-7xl px-4 py-8 transition-all duration-300 ease-in-out'>
       {/* Search results header */}
       <div className='mb-8'>
         <h1 className='text-3xl font-bold tracking-tight'>Search Results</h1>

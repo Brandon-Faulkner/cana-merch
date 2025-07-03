@@ -140,7 +140,7 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className='m-auto max-w-7xl px-4 py-8'>
+    <div className='animate-in fade-in-0 zoom-in-95 m-auto max-w-7xl px-4 py-8 transition-all duration-300 ease-in-out'>
       <h1 className='mb-8 text-3xl font-bold'>Checkout</h1>
 
       <div className='grid gap-8 lg:grid-cols-3'>

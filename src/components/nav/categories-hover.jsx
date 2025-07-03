@@ -8,7 +8,7 @@ export function CategoriesHover({ pathname, categories }) {
   return (
     <HoverCard openDelay={100} closeDelay={200}>
       <HoverCardTrigger asChild>
-        <Button variant='ghost' className='flex items-center gap-1 px-3 py-2'>
+        <Button variant='ghost' className='flex items-center gap-1 px-3 py-2 font-normal'>
           Categories
           <ChevronDown className='h-4 w-4 opacity-50' />
         </Button>

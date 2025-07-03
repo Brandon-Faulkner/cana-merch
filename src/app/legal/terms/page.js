@@ -8,9 +8,9 @@ export default function TermsPage() {
           <h1 className='text-3xl font-bold'>Terms of Service</h1>
 
           <p className='text-muted-foreground'>
-            These Terms of Service ("Terms") apply to the merchandise payment platform provided by
-            Cana Church ("we," "us," or "our"). By completing a payment through this website, you
-            agree to the terms below.
+            These Terms of Service (&quot;Terms&quot;) apply to the merchandise payment platform
+            provided by Cana Church (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;). By
+            completing a payment through this website, you agree to the terms below.
           </p>
 
           <div>

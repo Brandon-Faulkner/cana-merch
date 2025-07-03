@@ -8,8 +8,9 @@ export default function PrivacyPage() {
           <h1 className='text-3xl font-bold'>Privacy Policy</h1>
 
           <p className='text-muted-foreground'>
-            This Privacy Policy explains how Cana Church ("we," "us," or "our") collects and uses
-            your personal information when you pay for merchandise through our website.
+            This Privacy Policy explains how Cana Church (&quot;we,&quot; &quot;us,&quot; or
+            &quot;our&quot;) collects and uses your personal information when you pay for
+            merchandise through our website.
           </p>
 
           <div>
@@ -49,7 +50,8 @@ export default function PrivacyPage() {
             <h2 className='text-xl font-semibold'>4. Your Rights</h2>
             <p className='text-muted-foreground'>
               You may contact us to request confirmation or deletion of your name or email stored in
-              Stripe. We will comply in accordance with Stripe's capabilities and applicable laws.
+              Stripe. We will comply in accordance with Stripe&spos;s capabilities and applicable
+              laws.
             </p>
           </div>
 

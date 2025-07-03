@@ -97,7 +97,7 @@ export default function CategoryPage() {
   }
 
   return (
-    <div className='m-auto max-w-7xl px-4 py-8'>
+    <div className='animate-in fade-in-0 zoom-in-95 m-auto max-w-7xl px-4 py-8 transition-all duration-300 ease-in-out'>
       <h1 className='mb-8 text-3xl font-bold tracking-tight'>{getCategoryTitle()}</h1>
       <div className='xxs:gap-0 xxs:flex-row mb-6 flex flex-col items-center justify-between gap-6'>
         <p className='text-muted-foreground text-sm'>{`${filteredProducts.length} product${filteredProducts.length === 1 ? '' : 's'}`}</p>

@@ -24,7 +24,7 @@ export function ProductDetails({
   handleAddToCart,
 }) {
   return (
-    <div className='grid gap-8 md:grid-cols-2'>
+    <div className='animate-in fade-in-0 zoom-in-95 grid gap-8 transition-all duration-300 ease-in-out md:grid-cols-2'>
       <div className='bg-muted relative aspect-square overflow-hidden rounded-lg border'>
         <Image
           src={product.image}
