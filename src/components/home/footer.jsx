@@ -7,9 +7,10 @@ export function FooterSection() {
         <div className='grid items-center gap-6 lg:grid-cols-2 lg:gap-12'>
           <div className='relative h-[300px] w-full'>
             <Image
-              src='https://placehold.co/600x400'
+              src='/mission.webp'
               alt='Our church community'
               fill
+              quality={95}
               className='rounded-lg object-cover shadow-lg'
               sizes='(max-width: 768px) 100vw, 50vw'
             />

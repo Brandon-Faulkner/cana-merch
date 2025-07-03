@@ -27,9 +27,10 @@ export function HeroSection() {
           </div>
           <div className='relative h-[400px] w-full'>
             <Image
-              src='/merch_counter.webp'
+              src='/featured.webp'
               alt='Featured church merchandise'
               fill
+              quality={95}
               className='rounded-lg object-cover shadow-lg'
               sizes='(max-width: 768px) 100vw, 50vw'
               priority
