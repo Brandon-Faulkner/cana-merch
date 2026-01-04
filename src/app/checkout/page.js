@@ -23,10 +23,20 @@ export default function CheckoutPage() {
     }
     return '';
   });
-  const { cart, updateQuantity, removeFromCart, getCartTotal, getCartCount } = useCart();
+  const {
+    cart,
+    updateQuantity,
+    removeFromCart,
+    getCartTotal,
+    getShippingCost,
+    getTotalWithShipping,
+    shippingOption,
+    getCartCount,
+  } = useCart();
   const [loading, setLoading] = useState(true);
   const [appearance, setAppearance] = useState({ theme: 'stripe' });
   const { resolvedTheme } = useTheme();
+  const amountInCents = Math.round(getTotalWithShipping() * 100);
 
   useEffect(() => {
     document.title = 'Cana Merch | Checkout';
@@ -40,8 +50,7 @@ export default function CheckoutPage() {
           return;
         }
 
-        setLoading(true);
-        const amountInCents = Math.round(getCartTotal() * 100);
+        if (!clientSecret) setLoading(true);
         const metadata = {
           items: JSON.stringify(
             cart.map((item) => ({
@@ -77,12 +86,12 @@ export default function CheckoutPage() {
         console.error('Error creating/updating payment intent:', error);
         toast.error('There was a problem setting up the payment. Please try again.');
       } finally {
-        setLoading(false);
+        if (!clientSecret) setLoading(false);
       }
     };
 
     createOrUpdatePaymentIntent();
-  }, [cart, getCartTotal]);
+  }, [cart, amountInCents, shippingOption, clientSecret]);
 
   useEffect(() => {
     if (cart.length === 0 && paymentIntentId) {
@@ -153,6 +162,8 @@ export default function CheckoutPage() {
           updateQuantity={updateQuantity}
           removeFromCart={removeFromCart}
           getCartTotal={getCartTotal}
+          getShippingCost={getShippingCost}
+          getTotalWithShipping={getTotalWithShipping}
           getCartCount={getCartCount}
         />
 

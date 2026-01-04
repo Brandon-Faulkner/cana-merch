@@ -21,8 +21,8 @@ export default function TermsPage() {
             <h2 className='text-xl font-semibold'>1. Overview</h2>
             <p className='text-muted-foreground'>
               This site allows you to pay for church merchandise that you have picked up in person
-              at Cana Church. No shipping or delivery is provided. All items are selected and taken
-              by the customer before payment.
+              at Cana Church or will have delivered to you if the destination is within 15 miles of
+              Cana Church, Texas, US.
             </p>
           </div>
 
@@ -30,15 +30,13 @@ export default function TermsPage() {
             <h2 className='text-xl font-semibold'>2. Payment</h2>
             <p className='text-muted-foreground'>
               Payments are processed securely through Stripe. Prices are listed in USD. By
-              submitting your payment, you authorize the transaction and agree that the item has
-              already been received.
+              submitting your payment, you authorize the transaction.
             </p>
           </div>
 
           <div>
             <h2 className='text-xl font-semibold'>3. Returns</h2>
             <p className='text-muted-foreground'>
-              Since you physically select and take your items before paying, all sales are final.
               Exchanges may be granted for defective items at our discretion. Please contact us
               within 7 days if needed.
             </p>
@@ -48,7 +46,7 @@ export default function TermsPage() {
             <h2 className='text-xl font-semibold'>4. Contact</h2>
             <p className='text-muted-foreground'>
               For any questions, please contact us at &thinsp;
-              <a href='mailto:info@canachurch.com' className='underline'>
+              <a href='mailto:cana@canachurch.com' className='underline'>
                 cana@canachurch.com
               </a>
               .

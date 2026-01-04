@@ -8,10 +8,13 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { CheckoutForm } from '@/components/forms/checkout-form';
+import { ShippingForm } from '@/components/forms/shipping-form';
 
 export function StripeForm() {
   return (
-    <div className='lg:col-span-2'>
+    <div className='space-y-4 lg:col-span-2'>
+      <ShippingForm />
+
       <Card>
         <CardHeader>
           <CardTitle>Payment Details</CardTitle>

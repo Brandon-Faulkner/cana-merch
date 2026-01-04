@@ -18,7 +18,7 @@ export function FooterSection() {
           <div className='space-y-4'>
             <h2 className='text-3xl font-bold tracking-tighter'>More Than Just Merch</h2>
             <p className='text-muted-foreground'>
-              Every item you pick up supports Cana Church and its mission. Your purchase helps fund
+              Every item you purchase supports Cana Church and its mission. Your purchase helps fund
               local outreach, events, and ministry efforts—while giving you something meaningful to
               wear or use.
             </p>

@@ -10,11 +10,11 @@ export function HeroSection() {
         <div className='grid items-center gap-6 lg:grid-cols-2 lg:gap-12'>
           <div className='space-y-4'>
             <h1 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl'>
-              Grab Merch. Pay Online. Simple.
+              Shop Merch. Pay Online. Simple.
             </h1>
             <p className='text-muted-foreground md:text-xl'>
-              Find something you love at our church merch counter, then check out right here in just
-              a few clicks. No shipping, no forms—just pick it up and pay online.
+              Shop online and check out in minutes. Choose pickup at church or shipping—whatever
+              works for you.
             </p>
             <div className='flex flex-col gap-2 sm:flex-row'>
               <Button size='lg' asChild>

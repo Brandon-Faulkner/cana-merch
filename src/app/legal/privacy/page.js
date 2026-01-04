@@ -20,8 +20,9 @@ export default function PrivacyPage() {
           <div>
             <h2 className='text-xl font-semibold'>1. Information Collected</h2>
             <p className='text-muted-foreground'>
-              We collect your name and email address when you complete a payment. This information
-              is used solely to identify your transaction in Stripe.
+              We collect your name, email address, and possibly shipping information when you
+              complete a payment. This information is used solely to identify your transaction in
+              Stripe and to get your order to you.
             </p>
           </div>
 
@@ -53,9 +54,9 @@ export default function PrivacyPage() {
           <div>
             <h2 className='text-xl font-semibold'>4. Your Rights</h2>
             <p className='text-muted-foreground'>
-              You may contact us to request confirmation or deletion of your name or email stored in
-              Stripe. We will comply in accordance with Stripe&spos;s capabilities and applicable
-              laws.
+              You may contact us to request confirmation or deletion of your name, email, or address
+              stored in Stripe. We will comply in accordance with Stripe&apos;s capabilities and
+              applicable laws.
             </p>
           </div>
 
@@ -63,7 +64,7 @@ export default function PrivacyPage() {
             <h2 className='text-xl font-semibold'>5. Contact</h2>
             <p className='text-muted-foreground'>
               If you have any questions about this policy, please email &thinsp;
-              <a href='mailto:info@canachurch.com' className='underline'>
+              <a href='mailto:cana@canachurch.com' className='underline'>
                 cana@canachurch.com
               </a>
               .

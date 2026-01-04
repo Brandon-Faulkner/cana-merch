@@ -1,3 +1,4 @@
+'use client';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -5,7 +6,15 @@ import { Separator } from '@/components/ui/separator';
 import { formatPrice } from '@/lib/utils';
 import { Minus, Plus } from 'lucide-react';
 
-export function CartSummary({ cart, updateQuantity, removeFromCart, getCartTotal, getCartCount }) {
+export function CartSummary({
+  cart,
+  updateQuantity,
+  removeFromCart,
+  getCartTotal,
+  getShippingCost,
+  getTotalWithShipping,
+  getCartCount,
+}) {
   return (
     <div className='lg:col-span-1'>
       <Card>
@@ -79,11 +88,27 @@ export function CartSummary({ cart, updateQuantity, removeFromCart, getCartTotal
             </div>
           ))}
 
+          {getShippingCost() > 0 && (
+            <>
+              <Separator className='my-4' />
+              <div className='space-y-2'>
+                <div className='flex justify-between text-sm'>
+                  <span>Subtotal</span>
+                  <span>{formatPrice(getCartTotal())}</span>
+                </div>
+                <div className='flex justify-between text-sm'>
+                  <span>Shipping</span>
+                  <span>{formatPrice(getShippingCost())}</span>
+                </div>
+              </div>
+            </>
+          )}
+
           <Separator className='my-4' />
 
           <div className='flex justify-between text-lg font-semibold'>
             <span>Total</span>
-            <span>{formatPrice(getCartTotal())}</span>
+            <span>{formatPrice(getTotalWithShipping())}</span>
           </div>
         </CardContent>
       </Card>

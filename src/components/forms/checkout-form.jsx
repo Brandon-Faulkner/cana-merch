@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { AddressElement, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useCart } from '@/context/cart-provider';
@@ -13,31 +13,66 @@ export function CheckoutForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
-  const { cart, getCartTotal, clearCart } = useCart();
+  const { shippingOption, getTotalWithShipping } = useCart();
+  const [shippingComplete, setShippingComplete] = useState(false);
+  const [shippingAddress, setShippingAddress] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!shippingOption) {
+      toast.error('Please select a shipping method.');
+      return;
+    }
+
+    if (shippingOption?.id !== 'pickup' && !shippingComplete) {
+      toast.error('Please enter a complete shipping address.');
+      return;
+    }
 
     if (!stripe || !elements) {
       toast.error('Stripe has not loaded. Please try again.');
       return;
     }
 
-    if (!email || !name) {
-      toast.error('Please provide your name and email address.');
+    if (!email) {
+      toast.error('Please provide your email address.');
+      return;
+    }
+
+    if (!name && shippingOption?.id === 'pickup') {
+      toast.error('Please provide your name.');
       return;
     }
 
     setIsSubmitting(true);
+
+    const shouldShip = shippingOption?.id !== 'pickup';
+
+    const shipping = shouldShip
+      ? {
+          name: shippingAddress?.name || name || '',
+          phone: shippingAddress?.phone || undefined,
+          address: {
+            line1: shippingAddress?.address?.line1 || '',
+            line2: shippingAddress?.address?.line2 || undefined,
+            city: shippingAddress?.address?.city || '',
+            state: shippingAddress?.address?.state || '',
+            postal_code: shippingAddress?.address?.postal_code || '',
+            country: shippingAddress?.address?.country || 'US',
+          },
+        }
+      : undefined;
 
     const result = await stripe.confirmPayment({
       elements,
       confirmParams: {
         return_url: `${getBaseUrl()}/checkout/success`,
         receipt_email: email,
+        ...(shouldShip ? { shipping } : {}),
         payment_method_data: {
           billing_details: {
-            name,
+            name: shipping?.name || name,
             email,
           },
         },
@@ -55,18 +90,20 @@ export function CheckoutForm() {
       <div>
         <h2 className='mb-4 text-xl font-semibold'>Contact Information</h2>
         <div className='space-y-4'>
-          <div>
-            <label htmlFor='name' className='mb-1 block text-sm font-medium'>
-              Full Name
-            </label>
-            <Input
-              id='name'
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder='John Doe'
-              required
-            />
-          </div>
+          {shippingOption?.id === 'pickup' && (
+            <div>
+              <label htmlFor='name' className='mb-1 block text-sm font-medium'>
+                Full Name
+              </label>
+              <Input
+                id='name'
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder='John Doe'
+                required
+              />
+            </div>
+          )}
           <div>
             <label htmlFor='email' className='mb-1 block text-sm font-medium'>
               Email Address
@@ -83,6 +120,27 @@ export function CheckoutForm() {
         </div>
       </div>
 
+      {shippingOption?.id !== 'pickup' && (
+        <div>
+          <h2 className='mb-4 text-xl font-semibold'>Shipping Information</h2>
+          <AddressElement
+            options={{
+              mode: 'shipping',
+              allowedCountries: ['US'],
+            }}
+            onChange={(event) => {
+              if (event.complete) {
+                setShippingComplete(true);
+                setShippingAddress(event.value);
+              } else if (shippingComplete) {
+                setShippingComplete(false);
+                setShippingAddress(null);
+              }
+            }}
+          />
+        </div>
+      )}
+
       <div>
         <h2 className='mb-4 text-xl font-semibold'>Payment Information</h2>
         <PaymentElement />
@@ -92,7 +150,7 @@ export function CheckoutForm() {
         type='submit'
         className='w-full'
         size='lg'
-        disabled={isSubmitting || !stripe || !elements}
+        disabled={isSubmitting || !stripe || !elements || !shippingOption}
       >
         {isSubmitting ? (
           <>
@@ -102,7 +160,7 @@ export function CheckoutForm() {
         ) : (
           <>
             <CreditCard />
-            Pay {formatPrice(getCartTotal())}
+            Pay {formatPrice(getTotalWithShipping())}
           </>
         )}
       </Button>
